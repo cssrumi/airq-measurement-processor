@@ -1,0 +1,18 @@
+quarkus:
+  application:
+    name: airq-measurement-processor
+  datasource:
+    url: vertx-reactive:postgresql://localhost:5432/data
+    username: root
+    password: example
+
+mp:
+  messaging:
+    incoming:
+      airq-events:
+        connector: smallrye-mqtt
+        topic: /airq/sensors/out
+        host: localhost
+        port: 1883
+        broadcast: true
+        timeout: 1000
