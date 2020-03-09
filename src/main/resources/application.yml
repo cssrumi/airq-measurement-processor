@@ -11,7 +11,7 @@ mp:
     incoming:
       airq-events:
         connector: smallrye-mqtt
-        topic: /airq/sensors/out
+        topic: /airq/sensors
         host: localhost
         port: 1883
         broadcast: true
