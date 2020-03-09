@@ -1,15 +1,15 @@
 package pl.airq.procesor.measurement.event;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import pl.airq.procesor.measurement.payload.Payload;
 
 public abstract class AirqEvent implements Event {
 
     final String eventType;
-    final LocalDateTime timestamp;
+    final OffsetDateTime timestamp;
     final Payload payload;
 
-    AirqEvent(String eventType, LocalDateTime timestamp, Payload payload) {
+    AirqEvent(String eventType, OffsetDateTime timestamp, Payload payload) {
         this.eventType = eventType;
         this.timestamp = timestamp;
         this.payload = payload;
@@ -19,7 +19,7 @@ public abstract class AirqEvent implements Event {
         return eventType;
     }
 
-    public LocalDateTime getTimestamp() {
+    public OffsetDateTime getTimestamp() {
         return timestamp;
     }
 

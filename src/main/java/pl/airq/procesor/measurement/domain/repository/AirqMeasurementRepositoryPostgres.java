@@ -4,14 +4,13 @@ import io.vertx.axle.pgclient.PgPool;
 import io.vertx.axle.sqlclient.Tuple;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import java.time.ZoneId;
+import java.time.OffsetDateTime;
 import java.util.concurrent.CompletionStage;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import pl.airq.procesor.measurement.domain.AirqMeasurement;
-import pl.airq.procesor.measurement.process.AirqEventEmitter;
 
 @ApplicationScoped
 public class AirqMeasurementRepositoryPostgres implements AirqMeasurementRepository {
@@ -19,7 +18,7 @@ public class AirqMeasurementRepositoryPostgres implements AirqMeasurementReposit
     static final String SCHEMA = "CREATE TABLE IF NOT EXISTS AIRQ_MEASUREMENT\n" +
             "(\n" +
             "    id          BIGSERIAL PRIMARY KEY,\n" +
-            "    timestamp   BIGINT,\n" +
+            "    timestamp   TIMESTAMPTZ,\n" +
             "    temperature DOUBLE PRECISION,\n" +
             "    humidity    DOUBLE PRECISION,\n" +
             "    pm10        DOUBLE PRECISION,\n" +
@@ -34,7 +33,8 @@ public class AirqMeasurementRepositoryPostgres implements AirqMeasurementReposit
     private final io.vertx.axle.pgclient.PgPool client;
 
     @Inject
-    public AirqMeasurementRepositoryPostgres(@ConfigProperty(name = "airq-app.schema.create", defaultValue = "true") Boolean schemaCreate, PgPool client) {
+    public AirqMeasurementRepositoryPostgres(@ConfigProperty(name = "airq-app.schema.create", defaultValue = "true") Boolean schemaCreate,
+                                             PgPool client) {
         this.schemaCreate = schemaCreate;
         this.client = client;
     }
@@ -59,7 +59,7 @@ public class AirqMeasurementRepositoryPostgres implements AirqMeasurementReposit
     }
 
     private Tuple prepareAirqMeasurementTuple(AirqMeasurement measurement) {
-        final Long timestamp = measurement.getTimestamp() != null ? measurement.getTimestamp().atZone(ZoneId.systemDefault()).toEpochSecond() : null;
+        final OffsetDateTime timestamp = measurement.getTimestamp();
         final Double humidity = measurement.getHumidity() != null ? measurement.getHumidity().getValue() : null;
         final Double temperature = measurement.getTemperature() != null ? measurement.getTemperature().getValue() : null;
         final Double pm10 = measurement.getPm10() != null ? measurement.getPm10().getValue() : null;

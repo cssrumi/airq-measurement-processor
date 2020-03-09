@@ -1,13 +1,13 @@
 package pl.airq.procesor.measurement.domain;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import pl.airq.procesor.measurement.vo.Measurement;
 import pl.airq.procesor.measurement.vo.StationId;
 import pl.airq.procesor.measurement.vo.StationLocation;
 
 public final class AirqMeasurement {
 
-    private final LocalDateTime timestamp;
+    private final OffsetDateTime timestamp;
     private final Measurement temperature;
     private final Measurement humidity;
     private final Measurement pm10;
@@ -15,7 +15,7 @@ public final class AirqMeasurement {
     private final StationId stationId;
     private final StationLocation location;
 
-    public AirqMeasurement(LocalDateTime timestamp, Measurement temperature, Measurement humidity, Measurement pm10,
+    public AirqMeasurement(OffsetDateTime timestamp, Measurement temperature, Measurement humidity, Measurement pm10,
                            Measurement pm25, StationId stationId, StationLocation location) {
         this.timestamp = timestamp;
         this.temperature = temperature;
@@ -26,7 +26,7 @@ public final class AirqMeasurement {
         this.location = location;
     }
 
-    public LocalDateTime getTimestamp() {
+    public OffsetDateTime getTimestamp() {
         return timestamp;
     }
 

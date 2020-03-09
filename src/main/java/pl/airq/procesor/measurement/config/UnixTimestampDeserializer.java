@@ -8,18 +8,17 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import java.io.IOException;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
-public class UnixTimestampDeserializer extends JsonDeserializer<LocalDateTime> {
+public class UnixTimestampDeserializer extends JsonDeserializer<OffsetDateTime> {
     private final Logger log = LoggerFactory.getLogger(UnixTimestampDeserializer.class);
 
     @Override
-    public LocalDateTime deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public OffsetDateTime deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         String timestamp = jp.getText().trim();
         try {
-            Instant instant = Instant.ofEpochSecond(Long.parseLong(timestamp));
-            return instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+            return OffsetDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong(timestamp)), ZoneOffset.UTC);
         } catch (NumberFormatException e) {
             log.warn("Unable to deserialize timestamp: " + timestamp, e);
             return null;

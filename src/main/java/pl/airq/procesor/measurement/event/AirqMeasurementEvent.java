@@ -1,11 +1,11 @@
 package pl.airq.procesor.measurement.event;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import pl.airq.procesor.measurement.payload.AirqMeasurementPayload;
 
 public class AirqMeasurementEvent extends AirqEvent {
 
-    public AirqMeasurementEvent(LocalDateTime timestamp, AirqMeasurementPayload payload) {
+    public AirqMeasurementEvent(OffsetDateTime timestamp, AirqMeasurementPayload payload) {
         super("AirqMeasurement", timestamp, payload);
     }
 
