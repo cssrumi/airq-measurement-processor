@@ -68,8 +68,8 @@ public class AirqMeasurementRepositoryPostgres implements AirqMeasurementReposit
         final String stationLocation = measurement.getLocation() != null ? measurement.getLocation().getLocation() : null;
 
         return Tuple.of(timestamp)
-                    .addDouble(humidity)
                     .addDouble(temperature)
+                    .addDouble(humidity)
                     .addDouble(pm10)
                     .addDouble(pm25)
                     .addString(stationId)
