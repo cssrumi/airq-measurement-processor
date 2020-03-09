@@ -2,7 +2,7 @@ package pl.airq.procesor.measurement.vo;
 
 public class StationLocation {
 
-    private String location;
+    private final String location;
 
     private StationLocation(String location) {
         this.location = location;
