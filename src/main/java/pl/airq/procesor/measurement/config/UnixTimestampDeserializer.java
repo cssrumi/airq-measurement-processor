@@ -18,7 +18,7 @@ public class UnixTimestampDeserializer extends JsonDeserializer<LocalDateTime> {
     public LocalDateTime deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         String timestamp = jp.getText().trim();
         try {
-            Instant instant = Instant.ofEpochMilli(Long.parseLong(timestamp + "000"));
+            Instant instant = Instant.ofEpochSecond(Long.parseLong(timestamp));
             return instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
         } catch (NumberFormatException e) {
             log.warn("Unable to deserialize timestamp: " + timestamp, e);
