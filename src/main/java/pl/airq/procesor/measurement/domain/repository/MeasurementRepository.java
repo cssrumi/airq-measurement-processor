@@ -6,4 +6,6 @@ public interface MeasurementRepository<T> {
 
     CompletionStage<Boolean> save(T measurement);
 
+    CompletionStage<Boolean> healthCheck();
+
 }

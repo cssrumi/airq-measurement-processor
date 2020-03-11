@@ -17,7 +17,9 @@ mp:
         username: AIRQMP
         password: U492WN7GQrEGRyzrRfR9xsrKsVu2TfGB
         broadcast: true
-        timeout: 1000
+        timeout: 5
+        reconnect-interval-seconds: 5
+        reconnect-attempts: 20
 
 "%dev":
   quarkus:

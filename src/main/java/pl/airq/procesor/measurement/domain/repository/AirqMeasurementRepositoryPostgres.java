@@ -6,6 +6,7 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import java.time.OffsetDateTime;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -26,6 +27,7 @@ public class AirqMeasurementRepositoryPostgres implements AirqMeasurementReposit
             "    stationId   VARCHAR(50),\n" +
             "    location    VARCHAR(100)\n" +
             ");";
+    static final String HEALTH_CHECK = "SELECT version();";
     final String INSERT_QUERY = "INSERT INTO AIRQ_MEASUREMENT (timestamp, temperature, humidity, pm10, pm25, stationId, location) VALUES ($1, $2, $3, $4, $5, $6, $7)";
 
     private final Logger log = LoggerFactory.getLogger(AirqMeasurementRepositoryPostgres.class);
@@ -56,6 +58,14 @@ public class AirqMeasurementRepositoryPostgres implements AirqMeasurementReposit
     public CompletionStage<Boolean> save(AirqMeasurement measurement) {
         return client.preparedQuery(INSERT_QUERY, prepareAirqMeasurementTuple(measurement))
                      .thenApply(result -> result.rowCount() != 0);
+    }
+
+    @Override
+    public CompletionStage<Boolean> healthCheck() {
+        return client.query(HEALTH_CHECK)
+                     .toCompletableFuture()
+                     .thenApply(r -> Boolean.TRUE)
+                     .completeOnTimeout(false, 3, TimeUnit.SECONDS);
     }
 
     private Tuple prepareAirqMeasurementTuple(AirqMeasurement measurement) {
