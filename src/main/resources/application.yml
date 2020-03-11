@@ -14,7 +14,7 @@ mp:
         topic: /airq/sensors
         host: vmq
         port: 1883
-        user: AIRQMP
+        username: AIRQMP
         password: U492WN7GQrEGRyzrRfR9xsrKsVu2TfGB
         broadcast: true
         timeout: 1000
@@ -30,5 +30,5 @@ mp:
       incoming:
         airq-events:
           host: localhost
-          user:
+          username:
           password:
