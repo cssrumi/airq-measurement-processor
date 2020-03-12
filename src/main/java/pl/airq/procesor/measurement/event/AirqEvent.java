@@ -11,7 +11,7 @@ public abstract class AirqEvent implements Event {
     final OffsetDateTime timestamp;
     final Payload payload;
 
-    AirqEvent(String eventType, OffsetDateTime timestamp, Payload payload) {
+    public AirqEvent(String eventType, OffsetDateTime timestamp, Payload payload) {
         this.eventType = eventType;
         this.timestamp = timestamp;
         this.payload = payload;
