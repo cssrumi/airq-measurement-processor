@@ -1,5 +1,8 @@
 package pl.airq.procesor.measurement.vo;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class StationId {
 
     private final String id;

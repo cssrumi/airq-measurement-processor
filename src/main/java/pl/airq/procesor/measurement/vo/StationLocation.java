@@ -1,5 +1,8 @@
 package pl.airq.procesor.measurement.vo;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class StationLocation {
 
     private final String location;
