@@ -8,7 +8,6 @@ public class StationLocation {
 
     private final String location;
 
-    @JsonCreator
     private StationLocation(String location) {
         this.location = location;
     }
@@ -17,6 +16,7 @@ public class StationLocation {
         return location;
     }
 
+    @JsonCreator
     public static StationLocation from(String value) {
         return new StationLocation(value);
     }

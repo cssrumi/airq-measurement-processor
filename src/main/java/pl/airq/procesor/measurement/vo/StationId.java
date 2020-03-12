@@ -8,7 +8,7 @@ public class StationId {
 
     private final String id;
 
-    @JsonCreator
+
     private StationId(String id) {
         this.id = id;
     }
@@ -17,6 +17,7 @@ public class StationId {
         return id;
     }
 
+    @JsonCreator
     public static StationId from(String value) {
         return new StationId(value);
     }

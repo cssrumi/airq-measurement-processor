@@ -8,7 +8,6 @@ public class Measurement {
 
     private final Double value;
 
-    @JsonCreator
     private Measurement(Double value) {
         this.value = value;
     }
@@ -17,6 +16,7 @@ public class Measurement {
         return value;
     }
 
+    @JsonCreator
     public static Measurement from(Double value) {
         return new Measurement(value);
     }
