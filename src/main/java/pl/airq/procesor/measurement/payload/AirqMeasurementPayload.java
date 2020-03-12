@@ -1,9 +1,11 @@
 package pl.airq.procesor.measurement.payload;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import pl.airq.procesor.measurement.vo.Measurement;
 import pl.airq.procesor.measurement.vo.StationId;
 import pl.airq.procesor.measurement.vo.StationLocation;
 
+@RegisterForReflection
 public class AirqMeasurementPayload implements Payload {
 
     public Measurement temperature;
