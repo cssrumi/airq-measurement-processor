@@ -5,14 +5,13 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.time.OffsetDateTime;
 import pl.airq.procesor.measurement.payload.Payload;
 
-@RegisterForReflection()
+@RegisterForReflection(methods = true)
 public abstract class AirqEvent implements Event {
 
     final String eventType;
     final OffsetDateTime timestamp;
     final Payload payload;
 
-    @JsonCreator
     AirqEvent(String eventType, OffsetDateTime timestamp, Payload payload) {
         this.eventType = eventType;
         this.timestamp = timestamp;
