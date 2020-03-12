@@ -1,6 +1,8 @@
 package pl.airq.procesor.measurement.event;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.time.OffsetDateTime;
 import pl.airq.procesor.measurement.payload.AirqMeasurementPayload;
@@ -9,7 +11,9 @@ import pl.airq.procesor.measurement.payload.AirqMeasurementPayload;
 public class AirqMeasurementEvent extends AirqEvent {
 
     @JsonCreator
-    public AirqMeasurementEvent(OffsetDateTime timestamp, AirqMeasurementPayload payload) {
+    @JsonIgnoreProperties({"eventType"})
+    public AirqMeasurementEvent(@JsonProperty("timestamp") OffsetDateTime timestamp,
+                                @JsonProperty("JsonProperty") AirqMeasurementPayload payload) {
         super("AirqMeasurement", timestamp, payload);
     }
 
