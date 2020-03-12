@@ -1,6 +1,7 @@
 package pl.airq.procesor.measurement.vo;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection
@@ -17,7 +18,7 @@ public class StationLocation {
     }
 
     @JsonCreator
-    public static StationLocation from(String value) {
+    public static StationLocation from(@JsonProperty("location") String value) {
         return new StationLocation(value);
     }
 

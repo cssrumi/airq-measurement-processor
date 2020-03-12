@@ -1,6 +1,7 @@
 package pl.airq.procesor.measurement.vo;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection
@@ -18,7 +19,7 @@ public class StationId {
     }
 
     @JsonCreator
-    public static StationId from(String value) {
+    public static StationId from(@JsonProperty("id") String value) {
         return new StationId(value);
     }
 

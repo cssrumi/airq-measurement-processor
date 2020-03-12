@@ -1,6 +1,7 @@
 package pl.airq.procesor.measurement.vo;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection
@@ -17,7 +18,7 @@ public class Measurement {
     }
 
     @JsonCreator
-    public static Measurement from(Double value) {
+    public static Measurement from(@JsonProperty("value") Double value) {
         return new Measurement(value);
     }
 
