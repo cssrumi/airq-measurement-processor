@@ -49,15 +49,23 @@ public class AirqMeasurementRepositoryPostgres implements AirqMeasurementReposit
     }
 
     private void initdb() {
+        log.info("Creating db schema...");
+        log.debug(SCHEMA);
         client.query(SCHEMA)
               .toCompletableFuture()
-              .join();
+              .orTimeout(5, TimeUnit.SECONDS)
+              .exceptionally(throwable -> {
+                  log.error("Unable to create schema...", throwable);
+                  return null;
+              });
     }
 
     @Override
     public CompletionStage<Boolean> save(AirqMeasurement measurement) {
         return client.preparedQuery(INSERT_QUERY, prepareAirqMeasurementTuple(measurement))
-                     .thenApply(result -> result.rowCount() != 0);
+                     .thenApply(result -> result.rowCount() != 0)
+                     .toCompletableFuture()
+                     .completeOnTimeout(Boolean.FALSE, 5, TimeUnit.SECONDS);
     }
 
     @Override

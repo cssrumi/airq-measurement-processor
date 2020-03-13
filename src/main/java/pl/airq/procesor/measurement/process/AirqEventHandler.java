@@ -30,7 +30,7 @@ public class AirqEventHandler {
         return repository.save(measurement)
                          .thenAccept(result -> {
                              if (result) {
-                                 log.debug("AirqMeasurement saved successfully.\nMessage: " + measurement.toString());
+                                 log.info("AirqMeasurement saved successfully.\nMessage: " + measurement.toString());
                              } else {
                                  log.warn("Unable to save AirqMeasurement");
                              }
