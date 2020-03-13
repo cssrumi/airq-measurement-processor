@@ -19,6 +19,7 @@ public class AirqMeasurementEvent extends AirqEvent {
     @JsonIgnoreProperties("eventType")
     public AirqMeasurementEvent from(@JsonProperty("timestamp") OffsetDateTime timestamp,
                                      @JsonProperty("payload") AirqMeasurementPayload payload) {
+        System.out.println("AirqMeasurementEvent Factory invoked");
         return new AirqMeasurementEvent(timestamp, payload);
     }
 
