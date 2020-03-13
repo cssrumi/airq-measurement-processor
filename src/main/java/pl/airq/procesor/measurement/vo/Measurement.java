@@ -13,6 +13,10 @@ public class Measurement {
         this.value = value;
     }
 
+    private Measurement(Integer value) {
+        this.value = Double.valueOf(value);
+    }
+
     public Double getValue() {
         return value;
     }
@@ -23,8 +27,9 @@ public class Measurement {
     }
 
     @JsonCreator
-    public static Measurement from(@JsonProperty("value") Integer value) {
-        return new Measurement(Double.valueOf(value));
+    public static Measurement fromInteger(@JsonProperty("value") Integer value) {
+        System.out.println("Hello from int factory");
+        return new Measurement(value);
     }
 
     @Override
