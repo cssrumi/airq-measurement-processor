@@ -11,7 +11,6 @@ public class AirqMeasurementEvent extends AirqEvent {
 
     AirqMeasurementEvent(OffsetDateTime timestamp, AirqMeasurementPayload payload) {
         super("AirqMeasurement", timestamp, payload);
-        System.out.println("AirqMeasurementEvent constructor invoked");
     }
 
     @Override
