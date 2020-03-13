@@ -1,21 +1,17 @@
 package pl.airq.procesor.measurement.event;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.beans.ConstructorProperties;
 import java.time.OffsetDateTime;
 import pl.airq.procesor.measurement.payload.AirqMeasurementPayload;
 
 @RegisterForReflection
 public class AirqMeasurementEvent extends AirqEvent {
 
-//    @ConstructorProperties({"timestamp", "payload"})
-    @JsonIgnoreProperties({"eventType"})
-    public AirqMeasurementEvent(@JsonProperty("timestamp") OffsetDateTime timestamp,
-                                @JsonProperty("payload") AirqMeasurementPayload payload) {
+    @JsonCreator
+    public AirqMeasurementEvent(OffsetDateTime timestamp, AirqMeasurementPayload payload) {
         super("AirqMeasurement", timestamp, payload);
+        System.out.println("AirqMeasurementEvent constructor invoked");
     }
 
     @Override
