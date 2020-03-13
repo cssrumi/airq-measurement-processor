@@ -22,6 +22,11 @@ public class Measurement {
         return new Measurement(value);
     }
 
+    @JsonCreator
+    public static Measurement from(@JsonProperty("value") Integer value) {
+        return new Measurement(Double.valueOf(value));
+    }
+
     @Override
     public String toString() {
         return "Measurement{" +
