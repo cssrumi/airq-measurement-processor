@@ -1,4 +1,4 @@
-package pl.airq.procesor.measurement.payload;
+package pl.airq.procesor.measurement.event.payload;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import pl.airq.procesor.measurement.vo.Measurement;

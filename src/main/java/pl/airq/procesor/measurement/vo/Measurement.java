@@ -28,7 +28,6 @@ public class Measurement {
 
     @JsonCreator
     public static Measurement fromInteger(@JsonProperty("value") Integer value) {
-        System.out.println("Hello from int factory");
         return new Measurement(value);
     }
 

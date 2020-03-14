@@ -2,7 +2,7 @@ package pl.airq.procesor.measurement.domain;
 
 import javax.inject.Singleton;
 import pl.airq.procesor.measurement.event.AirqMeasurementEvent;
-import pl.airq.procesor.measurement.payload.AirqMeasurementPayload;
+import pl.airq.procesor.measurement.event.payload.AirqMeasurementPayload;
 
 @Singleton
 public class AirqMeasurementFactory {

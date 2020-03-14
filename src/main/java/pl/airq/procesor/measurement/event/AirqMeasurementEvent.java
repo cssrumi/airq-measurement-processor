@@ -3,7 +3,7 @@ package pl.airq.procesor.measurement.event;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.time.OffsetDateTime;
-import pl.airq.procesor.measurement.payload.AirqMeasurementPayload;
+import pl.airq.procesor.measurement.event.payload.AirqMeasurementPayload;
 
 @RegisterForReflection
 @JsonIgnoreProperties(value = {"eventType"}, allowGetters = true)

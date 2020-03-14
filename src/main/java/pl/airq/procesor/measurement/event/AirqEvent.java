@@ -2,7 +2,7 @@ package pl.airq.procesor.measurement.event;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.time.OffsetDateTime;
-import pl.airq.procesor.measurement.payload.Payload;
+import pl.airq.procesor.measurement.event.payload.Payload;
 
 @RegisterForReflection
 public abstract class AirqEvent implements Event {

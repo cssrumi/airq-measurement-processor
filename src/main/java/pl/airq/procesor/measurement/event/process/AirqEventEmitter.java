@@ -1,4 +1,4 @@
-package pl.airq.procesor.measurement.process;
+package pl.airq.procesor.measurement.event.process;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

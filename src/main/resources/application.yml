@@ -2,7 +2,7 @@ quarkus:
   application:
     name: airq-measurement-processor
   datasource:
-    url: vertx-reactive:postgresql://db:5432/warehouse
+    url: vertx-reactive:postgresql://10.1.1.50:5432/warehouse
     username: warehouse_admin
     password: NZGJbSCnxa9VP675Mdbkm9eRP5By4f9E
 

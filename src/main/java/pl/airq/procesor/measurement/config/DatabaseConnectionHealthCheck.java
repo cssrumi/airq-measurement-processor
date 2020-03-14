@@ -24,11 +24,11 @@ public class DatabaseConnectionHealthCheck implements HealthCheck {
     public HealthCheckResponse call() {
         try {
             return airqMeasurementRepository.healthCheck()
-                                     .thenApply(bool -> bool == Boolean.TRUE
-                                             ? HealthCheckResponse.up(HEALTH_CHECK)
-                                             : HealthCheckResponse.down(HEALTH_CHECK))
-                                     .toCompletableFuture()
-                                     .get();
+                                            .thenApply(bool -> bool == Boolean.TRUE
+                                                    ? HealthCheckResponse.up(HEALTH_CHECK)
+                                                    : HealthCheckResponse.down(HEALTH_CHECK))
+                                            .toCompletableFuture()
+                                            .get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             return HealthCheckResponse.down(HEALTH_CHECK);
