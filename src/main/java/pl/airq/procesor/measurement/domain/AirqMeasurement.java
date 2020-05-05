@@ -1,19 +1,21 @@
 package pl.airq.procesor.measurement.domain;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.time.OffsetDateTime;
 import pl.airq.procesor.measurement.vo.Measurement;
 import pl.airq.procesor.measurement.vo.StationId;
 import pl.airq.procesor.measurement.vo.StationLocation;
 
+@RegisterForReflection
 public final class AirqMeasurement {
 
-    private final OffsetDateTime timestamp;
-    private final Measurement temperature;
-    private final Measurement humidity;
-    private final Measurement pm10;
-    private final Measurement pm25;
-    private final StationId stationId;
-    private final StationLocation location;
+    public final OffsetDateTime timestamp;
+    public final Measurement temperature;
+    public final Measurement humidity;
+    public final Measurement pm10;
+    public final Measurement pm25;
+    public final StationId stationId;
+    public final StationLocation location;
 
     public AirqMeasurement(OffsetDateTime timestamp, Measurement temperature, Measurement humidity, Measurement pm10,
                            Measurement pm25, StationId stationId, StationLocation location) {
@@ -26,31 +28,16 @@ public final class AirqMeasurement {
         this.location = location;
     }
 
-    public OffsetDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public Measurement getTemperature() {
-        return temperature;
-    }
-
-    public Measurement getHumidity() {
-        return humidity;
-    }
-
-    public Measurement getPm10() {
-        return pm10;
-    }
-
-    public Measurement getPm25() {
-        return pm25;
-    }
-
-    public StationId getStationId() {
-        return stationId;
-    }
-
-    public StationLocation getLocation() {
-        return location;
+    @Override
+    public String toString() {
+        return "AirqMeasurement{" +
+                "timestamp=" + timestamp +
+                ", temperature=" + temperature +
+                ", humidity=" + humidity +
+                ", pm10=" + pm10 +
+                ", pm25=" + pm25 +
+                ", stationId=" + stationId +
+                ", location=" + location +
+                '}';
     }
 }

@@ -2,9 +2,17 @@ quarkus:
   application:
     name: airq-measurement-processor
   datasource:
-    url: vertx-reactive:postgresql://10.1.1.50:5432/warehouse
-    username: warehouse_admin
-    password: NZGJbSCnxa9VP675Mdbkm9eRP5By4f9E
+    db-kind: postgresql
+    username: postgres
+    jdbc:
+      url: jdbc:postgresql://10.1.1.50:5432/warehouse
+    reactive:
+      url: postgresql://10.1.1.50:5432/warehouse
+  flyway:
+    migrate-at-start: true
+    baseline-on-migrate: true
+  vertx:
+    prefer-native-transport: true
 
 mp:
   messaging:
@@ -14,23 +22,20 @@ mp:
         topic: /airq/sensors
         host: vmq
         port: 1883
-        username: AIRQMP
-        password: U492WN7GQrEGRyzrRfR9xsrKsVu2TfGB
         broadcast: true
-        timeout: 5
-        reconnect-interval-seconds: 5
-        reconnect-attempts: 20
+        timeout-on-connect: 5
 
-"%dev":
-  quarkus:
-    datasource:
-      url: vertx-reactive:postgresql://localhost:5432/data
-      username: root
-      password: example
-  mp:
-    messaging:
-      incoming:
-        airq-events:
-          host: localhost
-          username:
-          password:
+
+#"%dev":
+#  quarkus:
+#    datasource:
+#      url: vertx-reactive:postgresql://localhost:5432/data
+#      username: root
+#      password: example
+#  mp:
+#    messaging:
+#      incoming:
+#        airq-events:
+#          host: localhost
+#          username:
+#          password:

@@ -1,89 +1,58 @@
 package pl.airq.procesor.measurement.domain.repository;
 
-import io.vertx.axle.pgclient.PgPool;
-import io.vertx.axle.sqlclient.Tuple;
+import io.smallrye.mutiny.Uni;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import io.vertx.mutiny.pgclient.PgPool;
+import io.vertx.mutiny.sqlclient.Tuple;
 import java.time.OffsetDateTime;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import pl.airq.procesor.measurement.domain.AirqMeasurement;
 
 @ApplicationScoped
-public class AirqMeasurementRepositoryPostgres implements AirqMeasurementRepository {
+public class AirqMeasurementRepositoryPostgres implements PersistentRepository<AirqMeasurement> {
 
-    static final String SCHEMA = "CREATE TABLE IF NOT EXISTS AIRQ_MEASUREMENT\n" +
-            "(\n" +
-            "    id          BIGSERIAL PRIMARY KEY,\n" +
-            "    timestamp   TIMESTAMPTZ,\n" +
-            "    temperature DOUBLE PRECISION,\n" +
-            "    humidity    DOUBLE PRECISION,\n" +
-            "    pm10        DOUBLE PRECISION,\n" +
-            "    pm25        DOUBLE PRECISION,\n" +
-            "    stationId   VARCHAR(50),\n" +
-            "    location    VARCHAR(100)\n" +
-            ");";
-    static final String HEALTH_CHECK = "SELECT version();";
     final String INSERT_QUERY = "INSERT INTO AIRQ_MEASUREMENT (timestamp, temperature, humidity, pm10, pm25, stationId, location) VALUES ($1, $2, $3, $4, $5, $6, $7)";
-
-    private final Logger log = LoggerFactory.getLogger(AirqMeasurementRepositoryPostgres.class);
-    private final Boolean schemaCreate;
-    private final io.vertx.axle.pgclient.PgPool client;
+    private final Logger LOGGER = LoggerFactory.getLogger(AirqMeasurementRepositoryPostgres.class);
+    private final PgPool client;
 
     @Inject
-    public AirqMeasurementRepositoryPostgres(@ConfigProperty(name = "airq-app.schema.create", defaultValue = "true") Boolean schemaCreate,
-                                             PgPool client) {
-        this.schemaCreate = schemaCreate;
+    public AirqMeasurementRepositoryPostgres(PgPool client) {
         this.client = client;
     }
 
-    @PostConstruct
-    void config() {
-        if (schemaCreate) {
-            initdb();
-        }
-    }
-
-    private void initdb() {
-        log.info("Creating db schema...");
-        log.debug(SCHEMA);
-        client.query(SCHEMA)
-              .toCompletableFuture()
-              .orTimeout(5, TimeUnit.SECONDS)
-              .exceptionally(throwable -> {
-                  log.error("Unable to create schema...", throwable);
-                  return null;
-              });
-    }
 
     @Override
-    public CompletionStage<Boolean> save(AirqMeasurement measurement) {
+    public Uni<Boolean> save(AirqMeasurement measurement) {
         return client.preparedQuery(INSERT_QUERY, prepareAirqMeasurementTuple(measurement))
-                     .thenApply(result -> result.rowCount() != 0)
-                     .toCompletableFuture()
-                     .completeOnTimeout(Boolean.FALSE, 5, TimeUnit.SECONDS);
+                     .onItem()
+                     .apply(result -> {
+                         if (result.rowCount() != 0) {
+                             LOGGER.debug("AirqMeasurement saved successfully.");
+                             return true;
+                         }
+
+                         LOGGER.warn("Unable to save AirqMeasurement: " + measurement);
+                         return false;
+                     });
     }
 
     @Override
-    public CompletionStage<Boolean> healthCheck() {
-        return client.query(HEALTH_CHECK)
-                     .toCompletableFuture()
-                     .thenApply(r -> Boolean.TRUE)
-                     .completeOnTimeout(false, 3, TimeUnit.SECONDS);
+    public Uni<Boolean> upsert(AirqMeasurement measurement) {
+        return save(measurement);
     }
 
     private Tuple prepareAirqMeasurementTuple(AirqMeasurement measurement) {
-        final OffsetDateTime timestamp = measurement.getTimestamp();
-        final Double humidity = measurement.getHumidity() != null ? measurement.getHumidity().getValue() : null;
-        final Double temperature = measurement.getTemperature() != null ? measurement.getTemperature().getValue() : null;
-        final Double pm10 = measurement.getPm10() != null ? measurement.getPm10().getValue() : null;
-        final Double pm25 = measurement.getPm25() != null ? measurement.getPm25().getValue() : null;
-        final String stationId = measurement.getStationId() != null ? measurement.getStationId().getId() : null;
-        final String stationLocation = measurement.getLocation() != null ? measurement.getLocation().getLocation() : null;
+        final OffsetDateTime timestamp = measurement.timestamp;
+        final Double humidity = measurement.humidity != null ? measurement.humidity.getValue() : null;
+        final Double temperature = measurement.temperature != null ? measurement.temperature.getValue() : null;
+        final Double pm10 = measurement.pm10 != null ? measurement.pm10.getValue() : null;
+        final Double pm25 = measurement.pm25 != null ? measurement.pm25.getValue() : null;
+        final String stationId = measurement.stationId != null ? measurement.stationId.getId() : null;
+        final String stationLocation = measurement.location != null ? measurement.location.getLocation() : null;
 
         return Tuple.of(timestamp)
                     .addDouble(temperature)

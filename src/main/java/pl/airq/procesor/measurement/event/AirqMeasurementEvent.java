@@ -6,7 +6,7 @@ import java.time.OffsetDateTime;
 import pl.airq.procesor.measurement.event.payload.AirqMeasurementPayload;
 
 @RegisterForReflection
-@JsonIgnoreProperties(value = {"eventType"}, allowGetters = true)
+@JsonIgnoreProperties(value = {"eventType"})
 public class AirqMeasurementEvent extends AirqEvent {
 
     AirqMeasurementEvent(OffsetDateTime timestamp, AirqMeasurementPayload payload) {
