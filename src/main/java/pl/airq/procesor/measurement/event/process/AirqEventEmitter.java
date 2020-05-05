@@ -11,7 +11,7 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class AirqEventEmitter {
 
-    private final Logger log = LoggerFactory.getLogger(AirqEventEmitter.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AirqEventEmitter.class);
     private final ObjectMapper mapper;
     private final EventBus bus;
 
@@ -29,9 +29,9 @@ public class AirqEventEmitter {
             final Object object = mapper.treeToValue(jsonNode, clsType);
             final String type = clsType.getSimpleName();
             bus.sendAndForget(type, object);
-            log.info(String.format("Parsed event: %s\nSend to: %s", object.toString(), type));
+            LOGGER.info(String.format("Parsed event: %s\nSend to: %s handler", object.toString(), type));
         } catch (Exception ex) {
-            log.error("Unable to parse class", ex);
+            LOGGER.error("Unable to parse class", ex);
         }
     }
 }

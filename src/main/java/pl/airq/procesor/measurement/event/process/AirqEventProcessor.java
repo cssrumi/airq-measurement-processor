@@ -9,7 +9,7 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 @ApplicationScoped
 public class AirqEventProcessor {
 
-    private final Logger log = LoggerFactory.getLogger(AirqEventProcessor.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AirqEventProcessor.class);
     private final AirqEventEmitter emitter;
 
     @Inject
@@ -20,11 +20,11 @@ public class AirqEventProcessor {
     @Incoming("airq-events")
     public void consume(byte[] rawEvent) {
         String event = new String(rawEvent);
-        log.debug(String.format("Event arrived: %s", event));
+        LOGGER.debug(String.format("Event arrived: %s", event));
         try {
             emitter.emit(event);
         } catch (Exception e) {
-            log.error("Unable to process event from airq-events queue.", e);
+            LOGGER.error("Unable to process event from airq-events queue.", e);
         }
     }
 }

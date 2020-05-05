@@ -6,8 +6,6 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
 import java.time.OffsetDateTime;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.TimeUnit;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import pl.airq.procesor.measurement.domain.AirqMeasurement;
@@ -31,7 +29,7 @@ public class AirqMeasurementRepositoryPostgres implements PersistentRepository<A
                      .onItem()
                      .apply(result -> {
                          if (result.rowCount() != 0) {
-                             LOGGER.debug("AirqMeasurement saved successfully.");
+                             LOGGER.info("AirqMeasurement saved successfully.");
                              return true;
                          }
 
