@@ -9,7 +9,8 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 @ApplicationScoped
 public class AirqEventProcessor {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(AirqEventProcessor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AirqEventProcessor.class);
+
     private final AirqEventEmitter emitter;
 
     @Inject

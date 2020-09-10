@@ -11,7 +11,8 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class AirqEventEmitter {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(AirqEventEmitter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AirqEventEmitter.class);
+
     private final ObjectMapper mapper;
     private final EventBus bus;
 

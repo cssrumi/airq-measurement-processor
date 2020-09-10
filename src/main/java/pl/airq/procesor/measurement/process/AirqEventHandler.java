@@ -14,7 +14,8 @@ import pl.airq.procesor.measurement.domain.AirqMeasurementFactory;
 @ApplicationScoped
 public class AirqEventHandler {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(AirqEventHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AirqEventHandler.class);
+
     private final PersistentRepository<AirqMeasurement> repository;
     private final AirqMeasurementFactory factory;
 

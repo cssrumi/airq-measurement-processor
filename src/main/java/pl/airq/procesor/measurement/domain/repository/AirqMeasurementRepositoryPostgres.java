@@ -14,8 +14,9 @@ import pl.airq.common.domain.measurement.AirqMeasurement;
 @ApplicationScoped
 public class AirqMeasurementRepositoryPostgres implements PersistentRepository<AirqMeasurement> {
 
-    final String INSERT_QUERY = "INSERT INTO AIRQ_MEASUREMENT (timestamp, temperature, humidity, pm10, pm25, stationId, location) VALUES ($1, $2, $3, $4, $5, $6, $7)";
-    private final Logger LOGGER = LoggerFactory.getLogger(AirqMeasurementRepositoryPostgres.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AirqMeasurementRepositoryPostgres.class);
+    private static final String INSERT_QUERY = "INSERT INTO AIRQ_MEASUREMENT (timestamp, temperature, humidity, pm10, pm25, stationId, location) VALUES ($1, $2, $3, $4, $5, $6, $7)";
+
     private final PgPool client;
 
     @Inject
