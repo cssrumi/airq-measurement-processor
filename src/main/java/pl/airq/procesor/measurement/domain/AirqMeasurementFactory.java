@@ -1,17 +1,18 @@
 package pl.airq.procesor.measurement.domain;
 
 import javax.inject.Singleton;
-import pl.airq.procesor.measurement.event.AirqMeasurementEvent;
-import pl.airq.procesor.measurement.event.payload.AirqMeasurementPayload;
+import pl.airq.common.domain.event.AirqMeasurementEvent;
+import pl.airq.common.domain.event.AirqMeasurementPayload;
+import pl.airq.common.domain.measurement.AirqMeasurement;
 
 @Singleton
 public class AirqMeasurementFactory {
 
     public AirqMeasurement from(AirqMeasurementEvent event) {
-        AirqMeasurementPayload payload = (AirqMeasurementPayload) event.getPayload();
+        AirqMeasurementPayload payload = event.payload;
 
         return new AirqMeasurement(
-                event.getTimestamp(),
+                event.timestamp,
                 payload.temperature,
                 payload.humidity,
                 payload.pm10,

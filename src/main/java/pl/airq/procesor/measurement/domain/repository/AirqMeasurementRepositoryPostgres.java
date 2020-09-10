@@ -8,7 +8,8 @@ import io.vertx.mutiny.sqlclient.Tuple;
 import java.time.OffsetDateTime;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import pl.airq.procesor.measurement.domain.AirqMeasurement;
+import pl.airq.common.domain.PersistentRepository;
+import pl.airq.common.domain.measurement.AirqMeasurement;
 
 @ApplicationScoped
 public class AirqMeasurementRepositoryPostgres implements PersistentRepository<AirqMeasurement> {
@@ -25,9 +26,10 @@ public class AirqMeasurementRepositoryPostgres implements PersistentRepository<A
 
     @Override
     public Uni<Boolean> save(AirqMeasurement measurement) {
-        return client.preparedQuery(INSERT_QUERY, prepareAirqMeasurementTuple(measurement))
+        return client.preparedQuery(INSERT_QUERY)
+                     .execute(prepareAirqMeasurementTuple(measurement))
                      .onItem()
-                     .apply(result -> {
+                     .transform(result -> {
                          if (result.rowCount() != 0) {
                              LOGGER.info("AirqMeasurement saved successfully.");
                              return true;
@@ -45,10 +47,10 @@ public class AirqMeasurementRepositoryPostgres implements PersistentRepository<A
 
     private Tuple prepareAirqMeasurementTuple(AirqMeasurement measurement) {
         final OffsetDateTime timestamp = measurement.timestamp;
-        final Double humidity = measurement.humidity != null ? measurement.humidity.getValue() : null;
-        final Double temperature = measurement.temperature != null ? measurement.temperature.getValue() : null;
-        final Double pm10 = measurement.pm10 != null ? measurement.pm10.getValue() : null;
-        final Double pm25 = measurement.pm25 != null ? measurement.pm25.getValue() : null;
+        final Double humidity = measurement.humidity != null ? measurement.humidity.getDoubleValue() : null;
+        final Double temperature = measurement.temperature != null ? measurement.temperature.getDoubleValue() : null;
+        final Double pm10 = measurement.pm10 != null ? measurement.pm10.getDoubleValue() : null;
+        final Double pm25 = measurement.pm25 != null ? measurement.pm25.getDoubleValue() : null;
         final String stationId = measurement.stationId != null ? measurement.stationId.getId() : null;
         final String stationLocation = measurement.location != null ? measurement.location.getLocation() : null;
 

@@ -1,4 +1,4 @@
-package pl.airq.procesor.measurement.event.process;
+package pl.airq.procesor.measurement.process;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +25,7 @@ public class AirqEventEmitter {
         try {
             JsonNode jsonNode = mapper.readTree(event);
             final String eventType = jsonNode.get("eventType").asText();
-            final Class<?> clsType = Class.forName(String.format("pl.airq.procesor.measurement.event.%sEvent", eventType));
+            final Class<?> clsType = Class.forName(String.format("pl.airq.common.domain.event.%sEvent", eventType));
             final Object object = mapper.treeToValue(jsonNode, clsType);
             final String type = clsType.getSimpleName();
             bus.sendAndForget(type, object);

@@ -1,4 +1,4 @@
-package pl.airq.procesor.measurement.event.process;
+package pl.airq.procesor.measurement.process;
 
 import io.quarkus.vertx.ConsumeEvent;
 import io.smallrye.mutiny.Uni;
@@ -6,10 +6,10 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.airq.procesor.measurement.domain.AirqMeasurement;
+import pl.airq.common.domain.PersistentRepository;
+import pl.airq.common.domain.event.AirqMeasurementEvent;
+import pl.airq.common.domain.measurement.AirqMeasurement;
 import pl.airq.procesor.measurement.domain.AirqMeasurementFactory;
-import pl.airq.procesor.measurement.domain.repository.PersistentRepository;
-import pl.airq.procesor.measurement.event.AirqMeasurementEvent;
 
 @ApplicationScoped
 public class AirqEventHandler {

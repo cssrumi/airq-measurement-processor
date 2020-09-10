@@ -1,4 +1,4 @@
-package pl.airq.procesor.measurement.event.process;
+package pl.airq.procesor.measurement.process;
 
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
