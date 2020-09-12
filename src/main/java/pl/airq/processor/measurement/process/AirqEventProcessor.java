@@ -21,7 +21,7 @@ public class AirqEventProcessor {
     @Incoming("airq-events")
     public void consume(byte[] rawEvent) {
         String event = new String(rawEvent);
-        LOGGER.debug(String.format("Event arrived: %s", event));
+        LOGGER.info(String.format("Event arrived: %s", event));
         try {
             emitter.emit(event);
         } catch (Exception e) {
