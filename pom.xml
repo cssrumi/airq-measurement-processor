@@ -19,7 +19,7 @@
     </scm>
 
     <properties>
-        <common.version>1.1</common.version>
+        <common.version>1.2</common.version>
     </properties>
 
     <dependencies>
