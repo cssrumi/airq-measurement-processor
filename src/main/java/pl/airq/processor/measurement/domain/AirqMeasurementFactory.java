@@ -1,4 +1,4 @@
-package pl.airq.procesor.measurement.domain;
+package pl.airq.processor.measurement.domain;
 
 import javax.inject.Singleton;
 import pl.airq.common.domain.event.AirqMeasurementEvent;

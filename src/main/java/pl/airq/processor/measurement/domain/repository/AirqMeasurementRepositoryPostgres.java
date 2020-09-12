@@ -1,4 +1,4 @@
-package pl.airq.procesor.measurement.domain.repository;
+package pl.airq.processor.measurement.domain.repository;
 
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.logging.Logger;
