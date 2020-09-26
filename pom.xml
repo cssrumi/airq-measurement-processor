@@ -8,7 +8,7 @@
     <parent>
         <groupId>pl.airq</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>1.1</version>
+        <version>1.2</version>
     </parent>
 
     <scm>
@@ -19,7 +19,9 @@
     </scm>
 
     <properties>
-        <common.version>1.4</common.version>
+        <common.version>1.5</common.version>
+        <hivemq-testcontainer-junit5.version>1.2.0</hivemq-testcontainer-junit5.version>
+        <hivemq-mqtt-client.version>1.2.1</hivemq-mqtt-client.version>
     </properties>
 
     <dependencies>
@@ -46,7 +48,7 @@
             <artifactId>netty-transport-native-kqueue</artifactId>
             <classifier>osx-x86_64</classifier>
         </dependency>
-
+<!--    test-->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5</artifactId>
@@ -55,6 +57,18 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5-mockito</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.hivemq</groupId>
+            <artifactId>hivemq-testcontainer-junit5</artifactId>
+            <version>${hivemq-testcontainer-junit5.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.hivemq</groupId>
+            <artifactId>hivemq-mqtt-client</artifactId>
+            <version>${hivemq-mqtt-client.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

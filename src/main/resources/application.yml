@@ -23,16 +23,10 @@ mp:
         timeout-on-connect: 5
 
 
-"%dev":
+#"%dev":
 #  quarkus:
 #    datasource:
 #      url: vertx-reactive:postgresql://localhost:5432/data
 #      username: root
 #      password: example
-  mp:
-    messaging:
-      incoming:
-        airq-events:
-          host: localhost
-          username:
-          password:
+

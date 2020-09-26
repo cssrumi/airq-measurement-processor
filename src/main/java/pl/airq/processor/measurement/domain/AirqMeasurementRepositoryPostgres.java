@@ -1,52 +1,37 @@
-package pl.airq.processor.measurement.domain.repository;
+package pl.airq.processor.measurement.domain;
 
-import io.smallrye.mutiny.Uni;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.mutiny.pgclient.PgPool;
+import io.vertx.mutiny.sqlclient.Row;
+import io.vertx.mutiny.sqlclient.RowSet;
 import io.vertx.mutiny.sqlclient.Tuple;
 import java.time.OffsetDateTime;
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import pl.airq.common.domain.PersistentRepository;
+import javax.inject.Singleton;
 import pl.airq.common.domain.measurement.AirqMeasurement;
+import pl.airq.common.infrastructure.persistance.PersistentRepositoryPostgres;
 
-@ApplicationScoped
-public class AirqMeasurementRepositoryPostgres implements PersistentRepository<AirqMeasurement> {
+@Singleton
+public class AirqMeasurementRepositoryPostgres extends PersistentRepositoryPostgres<AirqMeasurement> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AirqMeasurementRepositoryPostgres.class);
-    private static final String INSERT_QUERY = "INSERT INTO AIRQ_MEASUREMENT (timestamp, temperature, humidity, pm10, pm25, stationId, location) VALUES ($1, $2, $3, $4, $5, $6, $7)";
-
-    private final PgPool client;
+    private static final String INSERT_QUERY = "INSERT INTO" +
+            " AIRQ_MEASUREMENT (timestamp, temperature, humidity, pm10, pm25, stationId, location)" +
+            " VALUES ($1, $2, $3, $4, $5, $6, $7)";
 
     @Inject
     public AirqMeasurementRepositoryPostgres(PgPool client) {
-        this.client = client;
-    }
-
-
-    @Override
-    public Uni<Boolean> save(AirqMeasurement measurement) {
-        return client.preparedQuery(INSERT_QUERY)
-                     .execute(prepareAirqMeasurementTuple(measurement))
-                     .onItem()
-                     .transform(result -> {
-                         if (result.rowCount() != 0) {
-                             LOGGER.info("AirqMeasurement saved successfully.");
-                             return true;
-                         }
-
-                         LOGGER.warn("Unable to save AirqMeasurement: " + measurement);
-                         return false;
-                     });
+        super(client);
     }
 
     @Override
-    public Uni<Boolean> upsert(AirqMeasurement measurement) {
-        return save(measurement);
+    protected String insertQuery() {
+        return INSERT_QUERY;
     }
 
-    private Tuple prepareAirqMeasurementTuple(AirqMeasurement measurement) {
+    @Override
+    protected Tuple prepareTuple(AirqMeasurement measurement) {
         final OffsetDateTime timestamp = measurement.timestamp;
         final Double humidity = measurement.humidity != null ? measurement.humidity.getDoubleValue() : null;
         final Double temperature = measurement.temperature != null ? measurement.temperature.getDoubleValue() : null;
@@ -62,5 +47,18 @@ public class AirqMeasurementRepositoryPostgres implements PersistentRepository<A
                     .addDouble(pm25)
                     .addString(stationId)
                     .addString(stationLocation);
+    }
+
+    @Override
+    protected void postSaveAction(RowSet<Row> saveResult) {
+    }
+
+    @Override
+    protected void postProcessAction(Boolean result, AirqMeasurement data) {
+        if (Boolean.TRUE.equals(result)) {
+            LOGGER.info("AirqMeasurement saved successfully.");
+            return;
+        }
+        LOGGER.warn("Unable to save AirqMeasurement: " + data);
     }
 }

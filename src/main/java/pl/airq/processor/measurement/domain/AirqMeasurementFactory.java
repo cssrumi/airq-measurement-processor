@@ -1,11 +1,11 @@
 package pl.airq.processor.measurement.domain;
 
-import javax.inject.Singleton;
-import pl.airq.common.domain.event.AirqMeasurementEvent;
-import pl.airq.common.domain.event.AirqMeasurementPayload;
+import javax.enterprise.context.ApplicationScoped;
 import pl.airq.common.domain.measurement.AirqMeasurement;
+import pl.airq.common.domain.measurement.AirqMeasurementEvent;
+import pl.airq.common.domain.measurement.AirqMeasurementPayload;
 
-@Singleton
+@ApplicationScoped
 public class AirqMeasurementFactory {
 
     public AirqMeasurement from(AirqMeasurementEvent event) {
