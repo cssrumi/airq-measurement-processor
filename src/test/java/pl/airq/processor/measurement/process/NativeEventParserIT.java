@@ -1,9 +1,10 @@
 package pl.airq.processor.measurement.process;
 
-import io.quarkus.test.junit.QuarkusTest;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.quarkus.test.junit.NativeImageTest;
 import java.time.OffsetDateTime;
-import javax.inject.Inject;
 import org.junit.jupiter.api.Test;
+import pl.airq.common.config.JacksonConfiguration;
 import pl.airq.common.domain.measurement.AirqMeasurementEvent;
 import pl.airq.common.domain.measurement.AirqMeasurementPayload;
 import pl.airq.common.process.EventParser;
@@ -12,21 +13,19 @@ import pl.airq.common.vo.Measurement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.wildfly.common.Assert.assertNotNull;
+import static pl.airq.processor.measurement.process.EventParserTest.RAW_AIRQ_MEASUREMENT_EVENT;
 
-@QuarkusTest
-public class EventParserTest {
+@NativeImageTest
+public class NativeEventParserIT {
 
-    static final String RAW_AIRQ_MEASUREMENT_EVENT = "{\"eventType\": \"AirqMeasurement\",\"timestamp\": 1599854402,\"payload\": " +
-            "{\"Temperature\": \"23.70°C\"," +
-            "\"Humidity\": \"66%\"," +
-            "\"PM10\": 518," +
-            "\"PM25\": 376," +
-            "\"stationId\": \"00000000164ab68a\"," +
-            "\"Location\": \"5424.831306,N,01826.459895,E\"}}";
+    static ObjectMapper objectMapper;
+    static EventParser parser;
 
-    @Inject
-    private EventParser parser;
+    static {
+        objectMapper = new ObjectMapper();
+        new JacksonConfiguration().customize(objectMapper);
+        parser = new EventParser(objectMapper);
+    }
 
     @Test
     void deserializeDomainEvent_fromSerializedEvent_expectValidInstance() {
@@ -44,12 +43,10 @@ public class EventParserTest {
 
     @Test
     void deserializeDomainEvent_fromRawEvent_expectValidInstance() {
-        final AirqEvent<?> airqEvent = parser.deserializeDomainEvent(RAW_AIRQ_MEASUREMENT_EVENT);
+        final AirqEvent airqEvent = parser.deserializeDomainEvent(RAW_AIRQ_MEASUREMENT_EVENT);
 
-        assertNotNull(airqEvent);
-        assertNotNull(airqEvent.payload);
-        assertNotNull(airqEvent.timestamp);
+        assertTrue(airqEvent instanceof AirqMeasurementEvent);
         assertEquals(AirqMeasurementEvent.class.getSimpleName(), airqEvent.eventType());
     }
-
 }
+
