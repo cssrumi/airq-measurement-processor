@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.airq.common.domain.exception.ProcessingException;
 import pl.airq.common.process.AppEventBus;
 import pl.airq.common.process.EventParser;
 
@@ -31,6 +32,7 @@ public class AirqEventConsumer {
     @Incoming("airq-events")
     public void consume(byte[] rawEvent) {
         Uni.createFrom().item(rawEvent)
+           .onItem().ifNull().failWith(new ProcessingException("Empty event occurred."))
            .map(String::new)
            .invoke(event -> LOGGER.info("Processing: {}", event))
            .map(parser::deserializeDomainEvent)
