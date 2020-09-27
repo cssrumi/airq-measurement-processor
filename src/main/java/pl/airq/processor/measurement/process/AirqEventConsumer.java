@@ -1,10 +1,7 @@
 package pl.airq.processor.measurement.process;
 
 import io.smallrye.mutiny.Uni;
-
 import java.time.Duration;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
